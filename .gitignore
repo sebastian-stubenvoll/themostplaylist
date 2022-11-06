@@ -1,0 +1,5 @@
+/node_modules/
+#/public/build/
+settings.js 
+
+.DS_Store
