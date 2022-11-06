@@ -32,7 +32,7 @@ export async function createAuthURL () {
     const s = generateRandomString();
     localStorage.setItem('state', s);
     const ps = 'state=' + s
-    const scope = 'scope=' + encodeURIComponent('playlist-read-private playlist-read-collaborative playlist-modify-private');
+    const scope = 'scope=playlist-read-private%20playlist-read-collaborative%20playlist-modify-private';
     const c = await createChallenge(createVerifier());
     const params = [cID, response_type, callback, c, code_challenge_method, ps, scope].join('&');
     const url = prefix + params
