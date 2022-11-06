@@ -17,7 +17,7 @@ to host this page on, by default
 
 Once you're finished clone this repository by running  
 
-    git clone https://github.com/sebastian-stubenvoll/spotify-collab-tracker
+    git clone https://github.com/sebastian-stubenvoll/themostplaylist.git
 
 and create a file called settings.js in the root directory that looks like this
 
