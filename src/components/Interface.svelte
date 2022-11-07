@@ -84,12 +84,13 @@
         text-align: left;
         font-family: "Josefin Slab";
         color: #000;
-        font-size: 4.2em;
+        font-size: 3.5em;
     }
 
     button {
         all: unset;
-        padding-top: 1em;
+        padding-top: 0.2em;
+        padding-bottom: 0.2em;
         cursor: pointer;
     }
 
