@@ -7,6 +7,7 @@
 
 	//remove auth url params
 	history.pushState({}, 'feed', pushURL);
+    const basepath = window.location.pathname;
 
     let cue = 'heartbreak';
     let last_cue = '';
@@ -80,7 +81,7 @@
     <div class="container">
         <div class="item">
     <div class="frame">
-        <img src="spotify-logo.png" alt="Spotify logo" />
+        <img src="{basepath}spotify-logo.png" alt="Spotify logo" />
     </div>
     </div>
     <div class="item">
