@@ -36,6 +36,10 @@
         createPlaylist(results, last_cue);
     }
 
+    const reloadPage = () => {
+        location = location;
+    }
+
 </script>
 
 <main>
@@ -60,24 +64,73 @@
         save playlist?
     </button>
         {:else}
+            <div class="saved">
             <del>save playlist.</del> done
+        </div>
         {/if}
             {#if results.length != 0}
             {#each results as r }
             <Result r={r} /> 
             {/each}
             {:else}
-            no playlists found sorry
+            no playlists found. sorry
         {/if}
     {/if}
 </main>
+    <div class="container">
+        <div class="item">
+    <div class="frame">
+        <img src="spotify-logo.png" alt="Spotify logo" />
+    </div>
+    </div>
+    <div class="item">
+        <div class="exit">
+            <button on:click={reloadPage}> 
+        exit 
+    </button>
+    </div>
+    </div>
+    </div>
 
 <style>
     :global(:root){
         overflow-y: auto;
     }
 
-    main {
+    .item {
+  width: 100%
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  flex-flow: row;
+  background-color: black;
+  left: 0;
+  bottom: 0;
+  position: fixed;
+  width: 100%;
+  height: 5em;
+}
+
+.container > div {
+  flex: 50%; /* or - flex: 0 50% - or - flex-basis: 50% - */
+  /*demo*/
+  margin-bottom: 10px;
+}
+
+    .frame {
+        height: 708px;      /* Equals maximum image height */
+        text-align: left;
+        margin: 0.5em;
+        }
+
+     img {
+        vertical-align: middle;
+        max-height: 3.5em;
+        }
+
+        main {
         margin-left: 0.4em;
         margin-left: 0.4em;
         margin-top: 0.4em;
@@ -85,19 +138,37 @@
         font-family: "Josefin Slab";
         color: #000;
         font-size: 3.5em;
-    }
+        }
 
-    button {
+        button {
         all: unset;
         padding-top: 0.2em;
         padding-bottom: 0.2em;
         cursor: pointer;
-    }
+        }
 
-    input {
+        .saved {
+        padding-top: 0.2em;
+        padding-bottom: 0.2em;
+        }
+
+
+        .exit {
+            color: white;
+            font-size: 3.5em;
+            text-align: right;
+            align-self: right;
+            padding-right: 10%;
+            padding-top: 0px;
+            font-family: "Josefin Slab";
+            display: flex;
+            justify-content: right;
+        }
+
+        input {
         all: unset;
         border: none;
         border-bottom: 4px solid black;
-    }
+        }
 
 </style>

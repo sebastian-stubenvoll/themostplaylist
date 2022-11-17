@@ -177,10 +177,18 @@ export async function songRequests (auth, cue) {
             let results = {};
 
             while (send) {
-                const res = await fetch(url, {
-                    method: 'GET',
-                    headers : authHeader(auth)
-                });
+                let res = { status : 429 };
+                while (res.status === 429) {
+                    res = await fetch(url, {
+                        method: 'GET',
+                        headers : authHeader(auth)
+                    });
+                    if (res.status === 429) {
+                        const delay = res.headers.get('Retry-After') * 1000;
+                        await new Promise(r => setTimeout(r, delay));
+                    }
+
+                }
                 let json = await res.json();
                 if (container != undefined) {
                     container.tracks.items = json.items;
@@ -188,38 +196,38 @@ export async function songRequests (auth, cue) {
                     json = container;
                 }
                 try {
-                for (let track of json.tracks.items) {
-                    try {
-                        let artists = [];
-                        for (let artist of track.track.artists) {
-                            artists.push({name : artist.name, link : artist.external_urls.spotify});
-                        } 
-                        if (!(track.track.id in results) && (track.track.id != null)) {
-                            results[track.track.id] = {
-                                song_title : track.track.name,
-                                song_link : track.track.external_urls.spotify,
-                                song_popularity : track.track.popularity,
-                                song_islocal : track.is_local,
-                                song_id : track.track.id,
-                                song_duration : track.track.duration_ms,
+                    for (let track of json.tracks.items) {
+                        try {
+                            let artists = [];
+                            for (let artist of track.track.artists) {
+                                artists.push({name : artist.name, link : artist.external_urls.spotify});
+                            } 
+                            if (!(track.track.id in results) && (track.track.id != null)) {
+                                results[track.track.id] = {
+                                    song_title : track.track.name,
+                                    song_link : track.track.external_urls.spotify,
+                                    song_popularity : track.track.popularity,
+                                    song_islocal : track.is_local,
+                                    song_id : track.track.id,
+                                    song_duration : track.track.duration_ms,
 
-                                album_name : track.track.album.name,
-                                album_link : track.track.album.external_urls.spotify,
+                                    album_name : track.track.album.name,
+                                    album_link : track.track.album.external_urls.spotify,
 
-                                playlists : [],
-                                artists : artists,
-                                occurrences : 1,
+                                    playlists : [],
+                                    artists : artists,
+                                    occurrences : 1,
+                                }
                             }
-                        }
 
-                        if (!songIDs.includes(track.track.id)) {
-                            results[track.track.id].playlists.push(pl);
-                            songIDs.push(track.track.id);
+                            if (!songIDs.includes(track.track.id)) {
+                                results[track.track.id].playlists.push(pl);
+                                songIDs.push(track.track.id);
+                            }
+                        } catch { 
+                            //pass
                         }
-                    } catch { 
-                        //pass
                     }
-                }
                 } catch {
                     //pass
                 }
@@ -260,14 +268,12 @@ export async function createPlaylist (results, cue) {
         headers : authHeader(token)
     });
     if (!res1.ok) { 
-        console.log(res1)
         return false}
     let json = await res1.json();
     const id = json.id; 
-    
-    console.log(id);
-    
-    
+
+
+
     url = 'https://api.spotify.com/v1/users/' + id + '/playlists';
     const res2 = await fetch(url, {
         method : 'POST',
@@ -282,7 +288,6 @@ export async function createPlaylist (results, cue) {
         })
     });
     if (!res2.ok) { 
-        console.log(res2)
         return false}
     json = await res2.json();
     const pid = json.id;
@@ -306,10 +311,9 @@ export async function createPlaylist (results, cue) {
         })
     });
     if (!res3.ok) { 
-        console.log(res3)
         return false}
     return json.external_urls.spotify;
-    
+
 
 }
 

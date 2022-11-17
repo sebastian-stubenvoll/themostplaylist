@@ -88,7 +88,5 @@ async function getSongs (l) {
 	}
 	//SQL: SELECT * FROM songs ORDER BY unix DESC LIMIT l
 	const result = await connection.select(query);
-    console.log('result');
-    console.log(result);
 	return result
 }

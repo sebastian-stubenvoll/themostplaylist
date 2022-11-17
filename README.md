@@ -34,3 +34,13 @@ refresh feature to work. If you're unsure just set it to `"/"`.
 Now run `npm i` to install all dependencies and finally run your application by executing
 
     npm run dev
+
+## contribute
+
+I wrote this project pretty much in a day while I was at home sick in an attempt to distract myself.
+So while there's probably an abundance of things that can be improved, I most likely won't be
+making any changes other than ones required for a quota extension from spotify.  
+
+If you want to make any improvements feel free to submit a pull request and I'll
+take a look!
+

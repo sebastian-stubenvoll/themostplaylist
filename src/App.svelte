@@ -9,9 +9,7 @@
 	let token_valid;
 
 	async function checkToken () {
-        console.log(1);
 		const paramCheck = await getParams();
-        console.log(2);
 		if (!paramCheck) {
 			token_valid = false;
 			return
